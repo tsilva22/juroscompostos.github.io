@@ -1,3 +1,6 @@
+// Autores: Thaís Oliveira & Johnathan Soares
+// Data: 24/02/2023
+
 //Seleciona os elementos
 const botao1 = document.querySelector(".button1");
 const botao2 = document.querySelector(".button2");

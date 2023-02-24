@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Juros Compostos</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;200;300;400;500;600;700&family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+
+<body class="container">
+  <header>
+    <div>
+      <ion-icon name="calculator-outline"></ion-icon>
+      <h1>Calculadora de Juros Compostos</h1>
+    </div>
+    <p>Os juros compostos crescem de forma exponencial, pois sua base de cálculo é sempre em cima do montante anterior. Faça esse cálculo financeiro de forma simples utilizando nossa calculadora!</p>
+  </header>
+  <main>
+    <section>
+      <div class="calculator">
+        <h2>Simulador de Juros Compostos</h2>
+        <form>
+          <div class="valor-inicial">
+            <label>Valor inicial</label>
+            <div class="input">
+              <span class="input-span">R$</span>
+              <input type="number" id="principal" placeholder="0,00" min="0" step="any" lang="pt-BR" required>
+            </div>
+          </div>
+          <div class="aporte-mensal">
+            <label>Aporte mensal</label>
+            <div class="input">
+              <span class="input-span">R$</span>
+              <input type="number" id="contribution" placeholder="0,00" min="0" step="any" lang="pt-BR">
+            </div>
+          </div>
+          <div class="taxa-juros">
+            <label>Taxa de juros</label>
+            <div class="input">
+              <span class="input-span">%</span>
+              <input type="tel" id="interest" placeholder="0,00" value tabindex="0" step="0.01" lang="pt-BR" required>
+              <button type="button" class="button1" data-toggle="tx-juros" aria-expanded="true">Anual</button>
+              <div class="input-suspenso1">
+                <ul>
+                  <li value="Anual" class="input-suspenso1-taxa">Anual</li>
+                  <li value="Mensal" class="input-suspenso1-taxa">Mensal</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="periodo">
+            <label>Período em</label>
+            <div class="input">
+              <input type="number" id="years" placeholder="0" min="0" lang="pt-BR" required>
+              <button type="button" class="button2" data-toggle="periodo" aria-expanded="true">Anos</button>
+              <div class="input-suspenso2">
+                <ul>
+                  <li value="Anos" class="input-suspenso2-periodo">Anos</li>
+                  <li value="Meses" class="input-suspenso2-periodo">Meses</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="div-btn-action">
+            <button class="btn-action" type="submit">Calcular</button>
+            <button class="btn-action" type="clean" id="limpar">Limpar</button>
+          </div>
+        </form>
+        <div id="result">
+          <h1>Resultado</h1>
+          <div class="resultados">
+            <div class="result-container">
+              <span>Valor total investido</span>
+              <div class="resultado result-aporte"></div>
+            </div>
+            <div class="result-container">
+              <span>Total em juros</span>
+              <div class="resultado result-juros"></div>
+            </div>
+            <div class="result-container">
+              <span>Valor total final</span>
+              <div class="resultado result-total"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="./script.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

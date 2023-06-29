@@ -167,10 +167,11 @@ header p {
   border-radius: 0 8px 8px 0;
   position: relative;
   font-size: 0.95rem;
-  padding: 10px 28px 10px 15px;
+  padding: 10px 28px 10px 10px;
   font-family: "Roboto", monospace;
   color: #333333;
   letter-spacing: 0.05em;
+  min-width: 130px;
 }
 
 .input button::after {
@@ -205,7 +206,21 @@ header p {
   border-color: transparent transparent #ffffff;
 }
 
-.input-suspenso1,
+.input-suspenso1 {
+  position: absolute;
+  min-width: 148px;
+  background: #ffffff;
+  border: 1px solid #cacaca;
+  border-radius: 8px;
+  padding: 5px 0;
+  right: 0;
+  bottom: -140px;
+  text-align: left;
+  font-size: 0.95rem;
+  overflow: hidden;
+  display: none;
+}
+
 .input-suspenso2 {
   position: absolute;
   min-width: 148px;

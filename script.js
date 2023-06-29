@@ -81,7 +81,10 @@ form.addEventListener("submit", function (e) {
   const years = parseFloat(document.getElementById("years").value);
 
   //calculos com verificações
-  if (botao1.textContent === "Anual" && botao2.textContent === "Anos") {
+  if (
+    (botao1.textContent === "Selic Anual" && botao2.textContent === "Anos") ||
+    (botao1.textContent === "CDI Anual" && botao2.textContent === "Anos")
+  ) {
     const total =
       principal * Math.pow(1 + interest / 12, years * 12) +
       contribution *
@@ -108,7 +111,10 @@ form.addEventListener("submit", function (e) {
     resultAporte.innerHTML = formattedTotalAportado;
     resultJuros.innerHTML = formattedTotalJuros;
     resultTotal.innerHTML = formattedTotal;
-  } else if (botao1.textContent === "Anual" && botao2.textContent === "Meses") {
+  } else if (
+    (botao1.textContent === "Selic Anual" && botao2.textContent === "Meses") ||
+    (botao1.textContent === "CDI Anual" && botao2.textContent === "Meses")
+  ) {
     const total =
       principal * Math.pow(1 + interest / 12, years) +
       contribution *
@@ -135,7 +141,10 @@ form.addEventListener("submit", function (e) {
     resultAporte.innerHTML = formattedTotalAportado;
     resultJuros.innerHTML = formattedTotalJuros;
     resultTotal.innerHTML = formattedTotal;
-  } else if (botao1.textContent === "Mensal" && botao2.textContent === "Anos") {
+  } else if (
+    (botao1.textContent === "Selic Mensal" && botao2.textContent === "Anos") ||
+    (botao1.textContent === "CDI Mensal" && botao2.textContent === "Anos")
+  ) {
     const total =
       principal * Math.pow(1 + interest, years * 12) +
       contribution * ((Math.pow(1 + interest, years * 12) - 1) / interest);
@@ -162,8 +171,8 @@ form.addEventListener("submit", function (e) {
     resultJuros.innerHTML = formattedTotalJuros;
     resultTotal.innerHTML = formattedTotal;
   } else if (
-    botao1.textContent === "Mensal" &&
-    botao2.textContent === "Meses"
+    (botao1.textContent === "Selic Mensal" && botao2.textContent === "Meses") ||
+    (botao1.textContent === "CDI Mensal" && botao2.textContent === "Meses")
   ) {
     const total =
       principal * Math.pow(1 + interest, years) +

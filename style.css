@@ -219,6 +219,7 @@ header p {
   font-size: 0.95rem;
   overflow: hidden;
   display: none;
+  z-index: 2;
 }
 
 .input-suspenso2 {
@@ -234,6 +235,7 @@ header p {
   font-size: 0.95rem;
   overflow: hidden;
   display: none;
+  z-index: 2;
 }
 
 .input-suspenso1.ativo,

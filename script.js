@@ -27,6 +27,30 @@ botao2.addEventListener("click", () => {
   botao1.classList.remove("ativo");
 });
 
+function formatarValor(input) {
+  // Remove todos os caracteres não numéricos do valor digitado
+  let valor = input.value.replace(/\D/g, "");
+
+  // Formata o valor adicionando os separadores de milhar e a vírgula decimal
+  valor = valor.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+  valor = valor.replace(/\./g, ".");
+
+  // Atualiza o valor no campo de input
+  input.value = valor;
+}
+
+function formatarTx(input) {
+  // Remove todos os caracteres não numéricos do valor digitado
+  let valor = input.value.replace(/\D/g, "");
+
+  // Formata o valor adicionando os separadores de milhar e a vírgula decimal
+  valor = valor.replace(/(\d)(?=(\d{2})+(?!\d))/g, "$1.");
+  valor = valor.replace(/\./g, ",");
+
+  // Atualiza o valor no campo de input
+  input.value = valor;
+}
+
 //verificando se o usuário clicar em outra parte do site para desativar o menu suspenso
 document.addEventListener("click", function (event) {
   const isClickInside1 = botao1.contains(event.target);
@@ -71,7 +95,9 @@ form.addEventListener("submit", function (e) {
   e.preventDefault();
 
   //selecionando as variáveis para os calculos
+  // Seleciona o campo de input
   const principal = parseFloat(document.getElementById("principal").value);
+
   const contribution =
     parseFloat(document.getElementById("contribution").value) || 0;
 

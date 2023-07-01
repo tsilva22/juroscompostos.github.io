@@ -177,7 +177,42 @@ form.addEventListener("submit", function (e) {
   resultTotal.innerHTML = formattedTotal;
 
   // Obtendo a referência para o elemento canvas
+  const canvas1 = document.getElementById("pieChart");
+
+  // Criando o contexto do gráfico
+  const ctx1 = canvas1.getContext("2d");
+
+  // Configurando os dados do gráfico
+  const data1 = {
+    labels: ["Valor Investido", "Juros"],
+    datasets: [
+      {
+        data: [
+          totalContribuitionData[totalContribuitionData.length - 1],
+          totalJurosData[totalJurosData.length - 1],
+        ],
+        backgroundColor: ["rgba(0,0,139, 0.6)", "rgba(0,128,0, 0.6)"],
+      },
+    ],
+  };
+
+  const options1 = {
+    responsive: false,
+    maintainAspectRatio: false,
+    width: 200,
+    height: 200,
+  };
+
+  // Criando o gráfico de pizza
+  new Chart(ctx1, {
+    type: "pie",
+    data: data1,
+    options: options1,
+  });
+
+  // Obtendo a referência para o elemento canvas
   const canvas = document.getElementById("graphics");
+  canvas.height = 200;
 
   // Criando o contexto do gráfico
   const ctx = canvas.getContext("2d");
@@ -185,7 +220,7 @@ form.addEventListener("submit", function (e) {
   // Configurando os dados do gráfico
   const labels = [];
   for (let i = 1; i <= years; i++) {
-    labels.push(`Mês ${i}`);
+    labels.push(i);
   }
 
   const data = {
@@ -217,11 +252,28 @@ form.addEventListener("submit", function (e) {
         grid: {
           display: false, // Remover linhas de grade vertical
         },
+        title: {
+          display: true, // Exibir o título do eixo X
+          text: "Meses", // Título do eixo X
+          font: {
+            size: 14, // Tamanho da fonte do título
+            weight: "bold", // Peso da fonte do título
+          },
+        },
       },
       y: {
         stacked: true, // Barras empilhadas verticalmente
         grid: {
           display: false,
+        },
+        ticks: {
+          callback: function (value, index, values) {
+            // Formatação personalizada dos valores do eixo Y
+            if (value >= 1000) {
+              return value / 1000 + "k";
+            }
+            return value;
+          },
         },
       },
     },

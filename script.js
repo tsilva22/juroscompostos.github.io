@@ -158,10 +158,7 @@ form.addEventListener("submit", function (e) {
       (acumulador, elemento) => acumulador + elemento,
       0
     );
-  const totalJuros = totalJurosData.reduce(
-    (acumulador, elemento) => acumulador + elemento,
-    0
-  );
+  const totalJuros = totalJurosData[totalJurosData.length - 1];
 
   const formattedTotalAportado = totalAportado.toLocaleString("pt-BR", {
     style: "currency",

@@ -97,6 +97,12 @@ const resultTotal = document.querySelector(".result-total");
 form.addEventListener("submit", function (e) {
   e.preventDefault();
 
+  // Variáveis para armazenar os dados do gráfico
+  const totalAportadoData = [];
+  const totalJurosData = [];
+  const totalData = [];
+  const totalContribuitionData = [];
+
   //selecionando as variáveis para os calculos
   // Seleciona o campo de input
   const principalInput = document.getElementById("principal").value;
@@ -106,130 +112,130 @@ form.addEventListener("submit", function (e) {
   const contribution = parseFloat(contributionInput.replace(".", ""));
 
   const interestInput = document.getElementById("interest");
-  const interest = parseFloat(interestInput.value.replace(",", ".")) / 100;
+  let interest = parseFloat(interestInput.value.replace(",", ".")) / 100;
+  let years = parseFloat(document.getElementById("years").value);
 
-  const years = parseFloat(document.getElementById("years").value);
-
-  //calculos com verificações
   if (
-    (botao1.textContent === "Selic Anual" && botao2.textContent === "Anos") ||
-    (botao1.textContent === "CDI Anual" && botao2.textContent === "Anos")
+    botao1.textContent === "Selic Anual" ||
+    botao1.textContent === "CDI Anual"
   ) {
-    const total =
-      principal * Math.pow(1 + interest / 12, years * 12) +
-      contribution *
-        ((Math.pow(1 + interest / 12, years * 12) - 1) / (interest / 12));
-    const formattedTotal = total.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    });
-    const totalAportado = principal + contribution * (years * 12);
-    const totalJuros = total - totalAportado;
-
-    const formattedTotalAportado = totalAportado.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    });
-
-    const formattedTotalJuros = totalJuros.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    });
-    if (!divResult.classList.contains("ativo")) {
-      divResult.classList.add("ativo");
-    }
-    resultAporte.innerHTML = formattedTotalAportado;
-    resultJuros.innerHTML = formattedTotalJuros;
-    resultTotal.innerHTML = formattedTotal;
-  } else if (
-    (botao1.textContent === "Selic Anual" && botao2.textContent === "Meses") ||
-    (botao1.textContent === "CDI Anual" && botao2.textContent === "Meses")
-  ) {
-    const total =
-      principal * Math.pow(1 + interest / 12, years) +
-      contribution *
-        ((Math.pow(1 + interest / 12, years) - 1) / (interest / 12));
-    const formattedTotal = total.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    });
-    const totalAportado = principal + contribution * years;
-    const totalJuros = total - totalAportado;
-
-    const formattedTotalAportado = totalAportado.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    });
-
-    const formattedTotalJuros = totalJuros.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    });
-    if (!divResult.classList.contains("ativo")) {
-      divResult.classList.add("ativo");
-    }
-    resultAporte.innerHTML = formattedTotalAportado;
-    resultJuros.innerHTML = formattedTotalJuros;
-    resultTotal.innerHTML = formattedTotal;
-  } else if (
-    (botao1.textContent === "Selic Mensal" && botao2.textContent === "Anos") ||
-    (botao1.textContent === "CDI Mensal" && botao2.textContent === "Anos")
-  ) {
-    const total =
-      principal * Math.pow(1 + interest, years * 12) +
-      contribution * ((Math.pow(1 + interest, years * 12) - 1) / interest);
-    const formattedTotal = total.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    });
-    const totalAportado = principal + contribution * (years * 12);
-    const totalJuros = total - totalAportado;
-
-    const formattedTotalAportado = totalAportado.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    });
-
-    const formattedTotalJuros = totalJuros.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    });
-    if (!divResult.classList.contains("ativo")) {
-      divResult.classList.add("ativo");
-    }
-    resultAporte.innerHTML = formattedTotalAportado;
-    resultJuros.innerHTML = formattedTotalJuros;
-    resultTotal.innerHTML = formattedTotal;
-  } else if (
-    (botao1.textContent === "Selic Mensal" && botao2.textContent === "Meses") ||
-    (botao1.textContent === "CDI Mensal" && botao2.textContent === "Meses")
-  ) {
-    const total =
-      principal * Math.pow(1 + interest, years) +
-      contribution * ((Math.pow(1 + interest, years) - 1) / interest);
-    const formattedTotal = total.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    });
-    const totalAportado = principal + contribution * years;
-    const totalJuros = total - totalAportado;
-
-    const formattedTotalAportado = totalAportado.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    });
-
-    const formattedTotalJuros = totalJuros.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    });
-    if (!divResult.classList.contains("ativo")) {
-      divResult.classList.add("ativo");
-    }
-    resultAporte.innerHTML = formattedTotalAportado;
-    resultJuros.innerHTML = formattedTotalJuros;
-    resultTotal.innerHTML = formattedTotal;
+    interest /= 12;
   }
+  if (botao2.textContent === "Anos") {
+    years *= 12;
+  }
+
+  //calculos
+  let totalAcumulado = principal; // Valor inicial é o valor principal
+  let totalContribuition = principal; //Valor inicial é o aporte mensal do primeiro mês
+  let totalJurosMensal = 0;
+  for (let i = 0; i < years; i++) {
+    // Calculando o juros para o mês atual
+    const jurosMensal = totalAcumulado * interest;
+    totalJurosMensal += jurosMensal;
+
+    //Atualizando os valores aportados
+    totalContribuition += contribution;
+
+    // Atualizando os valores acumulados
+    totalAcumulado += contribution + jurosMensal;
+
+    // Adicionando os valores aos arrays de dados
+    totalAportadoData.push(contribution);
+    totalJurosData.push(totalJurosMensal);
+    totalData.push(totalAcumulado);
+    totalContribuitionData.push(totalContribuition);
+  }
+
+  const total = totalData[totalData.length - 1];
+  const formattedTotal = total.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+  const totalAportado =
+    principal +
+    totalAportadoData.reduce(
+      (acumulador, elemento) => acumulador + elemento,
+      0
+    );
+  const totalJuros = totalJurosData.reduce(
+    (acumulador, elemento) => acumulador + elemento,
+    0
+  );
+
+  const formattedTotalAportado = totalAportado.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+
+  const formattedTotalJuros = totalJuros.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+  if (!divResult.classList.contains("ativo")) {
+    divResult.classList.add("ativo");
+  }
+  resultAporte.innerHTML = formattedTotalAportado;
+  resultJuros.innerHTML = formattedTotalJuros;
+  resultTotal.innerHTML = formattedTotal;
+
+  // Obtendo a referência para o elemento canvas
+  const canvas = document.getElementById("graphics");
+
+  // Criando o contexto do gráfico
+  const ctx = canvas.getContext("2d");
+
+  // Configurando os dados do gráfico
+  const labels = [];
+  for (let i = 1; i <= years; i++) {
+    labels.push(`Mês ${i}`);
+  }
+
+  const data = {
+    labels: labels,
+    datasets: [
+      {
+        label: "Aportes Mensais",
+        data: totalContribuitionData,
+        backgroundColor: "rgba(0,0,139, 0.5)", // Cor de preenchimento das barras
+        borderColor: "rgba(0,0,139, 1)", // Cor da borda das barras
+        borderWidth: 1, // Espessura da borda das barras
+      },
+      {
+        label: "Juros",
+        data: totalJurosData,
+        backgroundColor: "rgba(0,128,0, 0.5)", // Cor de preenchimento das barras
+        borderColor: "rgba(0,128,0, 1)", // Cor da borda das barras
+        borderWidth: 1, // Espessura da borda das barras
+      },
+    ],
+  };
+
+  // Configurando as opções do gráfico
+  const options = {
+    responsive: true, // Tornar o gráfico responsivo ao tamanho do contêiner
+    scales: {
+      x: {
+        stacked: true, // Barras empilhadas horizontalmente
+        grid: {
+          display: false, // Remover linhas de grade vertical
+        },
+      },
+      y: {
+        stacked: true, // Barras empilhadas verticalmente
+        grid: {
+          display: false,
+        },
+      },
+    },
+  };
+
+  // Criando o gráfico de barras
+  const barChart = new Chart(ctx, {
+    type: "bar",
+    data: data,
+    options: options,
+  });
 });
 
 //Limpeza dos campos através do botão 'limpar'

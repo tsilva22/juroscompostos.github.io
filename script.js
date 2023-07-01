@@ -102,8 +102,8 @@ form.addEventListener("submit", function (e) {
   const principalInput = document.getElementById("principal").value;
   const principal = parseFloat(principalInput.replace(".", ""));
 
-  const contribution =
-    parseFloat(document.getElementById("contribution").value) || 0;
+  const contributionInput = document.getElementById("contribution").value || 0;
+  const contribution = parseFloat(contributionInput.replace(".", ""));
 
   const interestInput = document.getElementById("interest");
   const interest = parseFloat(interestInput.value.replace(",", ".")) / 100;

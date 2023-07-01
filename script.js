@@ -29,11 +29,14 @@ botao2.addEventListener("click", () => {
 
 function formatarValor(input) {
   // Remove todos os caracteres não numéricos do valor digitado
-  let valor = input.value.replace(/\D/g, "");
+  let valor = input.value.replace(/|\$/g, "").replace(/\D/g, "");
 
   // Formata o valor adicionando os separadores de milhar e a vírgula decimal
-  valor = valor.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
-  valor = valor.replace(/\./g, ".");
+  valor = (valor / 100).toLocaleString("pt-BR", {
+    style: "decimal",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 
   // Atualiza o valor no campo de input
   input.value = valor;
@@ -44,7 +47,7 @@ function formatarTx(input) {
   let valor = input.value.replace(/\D/g, "");
 
   // Formata o valor adicionando os separadores de milhar e a vírgula decimal
-  valor = valor.replace(/(\d)(?=(\d{2})+(?!\d))/g, "$1.");
+  valor = valor.replace(/(\d)(?=(\d{2})+(?!\d))/g, "$1,");
   valor = valor.replace(/\./g, ",");
 
   // Atualiza o valor no campo de input
@@ -96,7 +99,8 @@ form.addEventListener("submit", function (e) {
 
   //selecionando as variáveis para os calculos
   // Seleciona o campo de input
-  const principal = parseFloat(document.getElementById("principal").value);
+  const principalInput = document.getElementById("principal").value;
+  const principal = parseFloat(principalInput.replace(".", ""));
 
   const contribution =
     parseFloat(document.getElementById("contribution").value) || 0;

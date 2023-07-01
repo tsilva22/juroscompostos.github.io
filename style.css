@@ -367,6 +367,30 @@ header p {
   color: #333333;
 }
 
+.grade-cell {
+  border-top: 1px solid rgb(214, 214, 214);
+  border-left: 1px solid rgb(214, 214, 214);
+  border-bottom: 1px solid rgb(214, 214, 214);
+  border-radius: 1px;
+  padding: 8px;
+}
+
+.grade-cell:last-child {
+  border-top: 1px solid rgb(214, 214, 214);
+  border-right: 1px solid rgb(214, 214, 214);
+  border-bottom: 1px solid rgb(214, 214, 214);
+  border-radius: 1px;
+  padding: 8px;
+}
+
+.background-aporte {
+  background: rgb(0, 0, 139, 0.1);
+}
+
+.background-juros {
+  background: rgb(0, 128, 0, 0.1);
+}
+
 @media (max-width: 780px) {
   header div {
     padding-left: 10px;

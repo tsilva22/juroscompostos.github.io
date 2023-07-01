@@ -233,6 +233,62 @@ form.addEventListener("submit", function (e) {
     data: data,
     options: options,
   });
+
+  // Obtendo uma referência para o elemento da tabela onde você deseja inserir os dados
+  const tabela = document.getElementById("table");
+  tabela.style.borderSpacing = "0 10px";
+
+  // Criando o cabeçalho da tabela
+  const cabecalho = tabela.createTHead();
+  const formatoMoeda = {
+    style: "currency",
+    currency: "BRL",
+  };
+  const cabecalhoRow = cabecalho.insertRow();
+  cabecalhoRow.innerHTML =
+    '<th style="padding: 0 20px;">Mês</th><th style="padding: 0 20px;">Total Investido</th><th style="padding: 0 20px;">Total de Juros</th><th style="padding: 0 20px;">Total Acumulado</th>';
+
+  // Criando as linhas da tabela com os dados
+  const corpo = tabela.createTBody();
+  for (let i = 0; i < years; i++) {
+    const linha = corpo.insertRow();
+    const celulaMes = linha.insertCell();
+    celulaMes.style.textAlign = "center";
+    celulaMes.style.verticalAlign = "middle";
+    celulaMes.innerHTML = i + 1;
+
+    const celulaTotalInvestido = linha.insertCell();
+    celulaTotalInvestido.style.textAlign = "center";
+    celulaTotalInvestido.style.verticalAlign = "middle";
+    celulaTotalInvestido.innerHTML = totalContribuitionData[i].toLocaleString(
+      "pt-BR",
+      formatoMoeda
+    );
+
+    const celulaTotalJuros = linha.insertCell();
+    celulaTotalJuros.style.textAlign = "center";
+    celulaTotalJuros.style.verticalAlign = "middle";
+    celulaTotalJuros.innerHTML = totalJurosData[i].toLocaleString(
+      "pt-BR",
+      formatoMoeda
+    );
+
+    const celulaTotalAcumulado = linha.insertCell();
+    celulaTotalAcumulado.style.textAlign = "center";
+    celulaTotalAcumulado.style.verticalAlign = "middle";
+    celulaTotalAcumulado.innerHTML = totalData[i].toLocaleString(
+      "pt-BR",
+      formatoMoeda
+    );
+
+    // Adicionar classe para estilização das células
+    celulaMes.classList.add("grade-cell");
+    celulaTotalInvestido.classList.add("grade-cell");
+    celulaTotalJuros.classList.add("grade-cell");
+    celulaTotalAcumulado.classList.add("grade-cell");
+    celulaTotalInvestido.classList.add("background-aporte");
+    celulaTotalJuros.classList.add("background-juros");
+  }
 });
 
 //Limpeza dos campos através do botão 'limpar'

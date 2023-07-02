@@ -93,9 +93,22 @@ const resultAporte = document.querySelector(".result-aporte");
 const resultJuros = document.querySelector(".result-juros");
 const resultTotal = document.querySelector(".result-total");
 
+let chartPie;
+let barChart;
+let corpo;
 //Adicionando o event listener para cálculo
 form.addEventListener("submit", function (e) {
   e.preventDefault();
+
+  if (chartPie) {
+    chartPie.destroy();
+  }
+  if (barChart) {
+    barChart.destroy();
+  }
+  if (corpo) {
+    corpo = null;
+  }
 
   // Variáveis para armazenar os dados do gráfico
   const totalAportadoData = [];
@@ -107,10 +120,8 @@ form.addEventListener("submit", function (e) {
   // Seleciona o campo de input
   const principalInput = document.getElementById("principal").value;
   const principal = parseFloat(principalInput.replace(".", ""));
-
   const contributionInput = document.getElementById("contribution").value || 0;
   const contribution = parseFloat(contributionInput.replace(".", ""));
-
   const interestInput = document.getElementById("interest");
   let interest = parseFloat(interestInput.value.replace(",", ".")) / 100;
   let years = parseFloat(document.getElementById("years").value);
@@ -203,8 +214,8 @@ form.addEventListener("submit", function (e) {
     height: 200,
   };
 
-  // Criando o gráfico de pizza
-  new Chart(ctx1, {
+  // Crie o novo gráfico normalmente
+  chartPie = new Chart(ctx1, {
     type: "pie",
     data: data1,
     options: options1,
@@ -280,7 +291,7 @@ form.addEventListener("submit", function (e) {
   };
 
   // Criando o gráfico de barras
-  const barChart = new Chart(ctx, {
+  barChart = new Chart(ctx, {
     type: "bar",
     data: data,
     options: options,
@@ -301,7 +312,7 @@ form.addEventListener("submit", function (e) {
     '<th style="padding: 0 20px;">Mês</th><th style="padding: 0 20px;">Total Investido</th><th style="padding: 0 20px;">Total de Juros</th><th style="padding: 0 20px;">Total Acumulado</th>';
 
   // Criando as linhas da tabela com os dados
-  const corpo = tabela.createTBody();
+  corpo = tabela.createTBody();
   for (let i = 0; i < years; i++) {
     const linha = corpo.insertRow();
     const celulaMes = linha.insertCell();
@@ -353,4 +364,8 @@ limpar.addEventListener("click", function () {
     input.value = "";
   });
   divResult.classList.remove("ativo");
+
+  chartPie.destroy();
+  barChart.destroy();
+  corpo = null;
 });

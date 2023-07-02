@@ -96,6 +96,9 @@ const resultTotal = document.querySelector(".result-total");
 let chartPie;
 let barChart;
 let corpo;
+let cabecalhoRow;
+let cabecalho;
+let tabela;
 //Adicionando o event listener para cálculo
 form.addEventListener("submit", function (e) {
   e.preventDefault();
@@ -107,7 +110,10 @@ form.addEventListener("submit", function (e) {
     barChart.destroy();
   }
   if (corpo) {
-    corpo = null;
+    corpo.innerHTML = "";
+  }
+  if (cabecalho) {
+    cabecalho.innerHTML = "";
   }
 
   // Variáveis para armazenar os dados do gráfico
@@ -298,18 +304,19 @@ form.addEventListener("submit", function (e) {
   });
 
   // Obtendo uma referência para o elemento da tabela onde você deseja inserir os dados
-  const tabela = document.getElementById("table");
+  tabela = document.getElementById("table");
   tabela.style.borderSpacing = "0 10px";
 
   // Criando o cabeçalho da tabela
-  const cabecalho = tabela.createTHead();
+  cabecalho = tabela.createTHead();
+  cabecalhoRow = cabecalho.insertRow();
+  cabecalhoRow.innerHTML =
+    '<th style="padding: 0 20px;">Mês</th><th style="padding: 0 20px;">Total Investido</th><th style="padding: 0 20px;">Total de Juros</th><th style="padding: 0 20px;">Total Acumulado</th>';
+
   const formatoMoeda = {
     style: "currency",
     currency: "BRL",
   };
-  const cabecalhoRow = cabecalho.insertRow();
-  cabecalhoRow.innerHTML =
-    '<th style="padding: 0 20px;">Mês</th><th style="padding: 0 20px;">Total Investido</th><th style="padding: 0 20px;">Total de Juros</th><th style="padding: 0 20px;">Total Acumulado</th>';
 
   // Criando as linhas da tabela com os dados
   corpo = tabela.createTBody();
@@ -367,5 +374,6 @@ limpar.addEventListener("click", function () {
 
   chartPie.destroy();
   barChart.destroy();
-  corpo = null;
+  corpo.innerHTML = "";
+  cabecalho.innerHTML = "";
 });

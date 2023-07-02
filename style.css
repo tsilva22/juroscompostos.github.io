@@ -391,6 +391,11 @@ header p {
   background: rgb(0, 128, 0, 0.1);
 }
 
+.div-table {
+  max-height: 630px; /* Defina a altura máxima desejada */
+  overflow-y: auto; /* Adicione uma barra de rolagem vertical quando necessário */
+}
+
 @media (max-width: 780px) {
   header div {
     padding-left: 10px;
